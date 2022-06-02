@@ -70,6 +70,8 @@ If you have made a notable fork or translation that is not suitable for a pull r
   - [1.2.10 Sounds](#anc-sounds)
   - [1.2.11 User Interface](#anc-ui)
   - [1.2.12 Effects](#anc-effects)
+  - [1.2.13 Gameplay Ability System](#anc-ability)
+  - [1.2.14 Enhanded Input](#anc-input)
 - [2. Content Directory Structure](#structure)
   - [2e1 Example Project Content Structure](#2e1)
   - [2.1 Folder Names](#structure-folder-names)
@@ -347,7 +349,6 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Static Mesh             | S_         |            | Many use SM_. We use S_.         |
 | Skeletal Mesh           | SK_        |            |                                  |
 | Texture                 | T_         | _?         | See [Textures](#anc-textures)    |
-| Particle System         | PS_        |            |                                  |
 | Widget Blueprint        | WBP_       |            |                                  |
 
 <a name="anc-animations"></a>
@@ -360,14 +361,21 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | Aim Offset 1D           | AO_        |            |                                  |
 | Animation Blueprint     | ABP_       |            |                                  |
 | Animation Composite     | AC_        |            |                                  |
+| Animation Layer Interface | ALI_     |            |                                  |
+| Animation Modifier      | AMod_      |            |                                  |
 | Animation Montage       | AM_        |            |                                  |
+| Animation Notify        | AN_        |            |                                  |
 | Animation Sequence      | A_         |            |                                  |
 | Blend Space             | BS_        |            |                                  |
 | Blend Space 1D          | BS_        |            |                                  |
+| Control Rig             | CR_        |            |                                  |
+| IK Rig                  | IK_        |            |                                  |
+| IK Retargeter           | RTG_       |            | Name should be `RTG_Source_Target_OptionalVariant`. For example, `RTG_Mixamo_Human`. |
 | Level Sequence          | LS_        |            |                                  |
 | Morph Target            | MT_        |            |                                  |
 | Paper Flipbook          | PFB_       |            |                                  |
-| Rig                     | Rig_       |            |                                  |
+| Pose                    | Pose_      |            |                                  |
+| Rig                     | Rig_       |            | Not used in UE5 anymore.         |
 | Skeletal Mesh           | SK_        |            |                                  |
 | Skeleton                | SKEL_      |            |                                  |
 
@@ -380,9 +388,9 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 | AI Controller           | AIC_       |            |                                  |
 | Behavior Tree           | BT_        |            |                                  |
 | Blackboard              | BB_        |            |                                  |
-| Decorator               | BTDecorator_ |          |                                  |
-| Service                 | BTService_ |            |                                  |
-| Task                    | BTTask_    |            |                                  |
+| Decorator               | BTD_       |            |                                  |
+| Service                 | BTS_       |            |                                  |
+| Task                    | BTT_       |            |                                  |
 | Environment Query       | EQS_       |            |                                  |
 | EnvQueryContext         | EQS_       | Context    |                                  |
 
@@ -421,6 +429,8 @@ When naming an asset, use these tables to determine the prefix and suffix to use
 <a name="1.2.6"></a>
 ### 1.2.6 Textures
 
+> It is worth noting that our organization won't be dealing with textures a lot. Therefore, there is no need to change the name of all texture assets that we import to be in line with this.
+
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
 | Texture                 | T_         |            |                                  |
@@ -458,6 +468,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | -------------------------- | ---------- | ---------- | -------------------------------- |
 | Animated Vector Field      | VFA_       |            |                                  |
 | Camera Anim                | CA_        |            |                                  |
+| Camera Shake               | CS_        |            |                                  |
 | Color Curve                | Curve_     | _Color     |                                  |
 | Curve Table                | Curve_     | _Table     |                                  |
 | Data Asset                 | *_         |            | Prefix should be based on class. |
@@ -467,6 +478,7 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Force Feedback Effect      | FFE_       |            |                                  |
 | Landscape Grass Type       | LG_        |            |                                  |
 | Landscape Layer            | LL_        |            |                                  |
+| LOD Settings               | LOD_       |            |                                  |
 | Matinee Data               | Matinee_   |            |                                  |
 | Media Player               | MP_        |            |                                  |
 | File Media Source          | FMS_       |            |                                  |
@@ -478,6 +490,8 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 | Substance Instance Factory | SIF_       |            |                                  |
 | Touch Interface Setup      | TI_        |            |                                  |
 | Vector Curve               | Curve_     | _Vector    |                                  |
+
+> To be able to see redirectors, you need to enable `Other Filters -> Show Redirectors` option in the filtering menu of the content browser. Try to fix these as soon as possible, but if fixing this redirector will makes changes to assets that other people are working on (you can view what files point to the redirector using the reference viewer), make sure you communicate about this and prevent creating merge conflicts.
 
 <a name="anc-paper2d"></a>
 <a name="1.2.8"></a>
@@ -535,8 +549,35 @@ Packing 4 channels of data into a texture (RGBA) is not recommended except for a
 
 | Asset Type              | Prefix     | Suffix     | Notes                            |
 | ----------------------- | ---------- | ---------- | -------------------------------- |
-| Particle System         | PS_        |            |                                  |
+| Particle System         | PS_        |            | Cascade is deprecated in UE5. Use Niagara. |
 | Material (Post Process) | PP_        |            |                                  |
+| Niagara Emitter         | NE_        |            |                                  |
+| Niagara Function Script | NM_        | _S         |                                  |
+| Niagara Module          | NM_        |            |                                  |
+| Niagara Parameter Collection | NP_   |            |                                  |
+| Niagara Parameter Collection Instance | NPI_ |    |                                  |
+| Niagara System          | NS_        |            |                                  |
+
+<a name="anc-ability"></a>
+<a name="1.2.13"></a>
+### 1.2.13 Gameplay Ability System
+
+| Asset Type              | Prefix     | Suffix     | Notes                            |
+| ----------------------- | ---------- | ---------- | -------------------------------- |
+| Gameplay Ability        | GA_        |            |                                  |
+| Gameplay Cue            | GC_        |            |                                  |
+| Gameplay Cue Notify     | GCN_       |            |                                  |
+| Gameplay Cue Notify (Latent) | GCNL_ |            |                                  |
+| Gameplay Effect         | GE_        |            |                                  |
+
+<a name="anc-input"></a>
+<a name="1.2.14"></a>
+### 1.2.14 Enhanced Input
+
+| Asset Type              | Prefix     | Suffix     | Notes                            |
+| ----------------------- | ---------- | ---------- | -------------------------------- |
+| Input Action            | IA_        |            |                                  |
+| Input Mapping Context   | IMC_       |            |                                  |
 
 **[⬆ Back to Top](#table-of-contents)**
 
